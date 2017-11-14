@@ -16,7 +16,11 @@ begin
 
   package_name = ARGV[0] or raise("image name not specified")
   puts "Scanning '#{package_name}'"
-  s.scan(package_name)
+  if s.scan(package_name)
+    exit(0)
+  else
+    exit(1)
+  end
 rescue => e
   $stderr.puts "ERROR: #{e.message}"
   $stderr.puts
