@@ -43,11 +43,15 @@ class Scanner
       .map {|p| [p, patches(p)] }
       .reject {|p, patches| patches.empty?}
 
-    to_patch.each do |package, patches|
-      puts "#{package.name} (currently #{package.version})"
-      patches.each do |patch|
-        puts "  #{patch.version} fixes #{patch.cves_fixed_in_this_release.join(', ')}"
+    if to_patch.any?
+      to_patch.each do |package, patches|
+        puts "#{package.name} (currently #{package.version})"
+        patches.each do |patch|
+          puts "  #{patch.version} fixes #{patch.cves_fixed_in_this_release.join(', ')}"
+        end
       end
+    else
+      puts "No pending security patches"
     end
   end
 end
