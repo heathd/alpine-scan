@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class AlpineSecdbCloner
   attr_reader :destination_path
 
@@ -13,9 +15,9 @@ class AlpineSecdbCloner
 private
   def ensure_clone!
     return if Dir.exist?(destination_path)
-    Dir.chdir(File.dirname(destination_path)) do
-      `git clone git://git.alpinelinux.org/alpine-secdb`
-    end
+    parent_path = File.dirname(destination_path)
+    FileUtils.mkdir_p(parent_path)
+    `git clone git://git.alpinelinux.org/alpine-secdb "#{destination_path}"`
   end
 
   def pull!
