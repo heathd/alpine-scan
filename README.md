@@ -7,7 +7,8 @@ A simple tool to compare a given docker image against the
 
 - ruby
 - bundler
-- git
+- git (used to clone alpine-secdb)
+- an internet connection (used to clone alpine-secdb)
 
 ## Usage
 
