@@ -1,4 +1,4 @@
-class VersionNumber < Struct.new(:major, :minor, :patch, :release)
+class VersionNumber < Struct.new(:major, :minor, :patch, :patchlevel, :release)
   include Comparable
 
   def initialize(version_string)
@@ -8,7 +8,15 @@ class VersionNumber < Struct.new(:major, :minor, :patch, :release)
   def parse!(version_string)
     parts = version_string.split('-r')
     self.release = parts.last && parts.last.to_i
-    (self.major, self.minor, self.patch) = parts.first.split('.').map(&:to_i)
+    (major, minor, patch_parts) = parts.first.split('.')
+    self.major = major && major.to_i
+    self.minor = minor && minor.to_i
+    if patch_parts =~ %r{^([0-9]+)([a-zA-Z]+)$}
+      self.patch = $1.to_i
+      self.patchlevel = $2
+    else
+      self.patch = patch_parts && patch_parts.to_i
+    end
   end
 
   def <=>(other_version)
@@ -19,7 +27,7 @@ class VersionNumber < Struct.new(:major, :minor, :patch, :release)
   end
 
   def version_vector
-    [major, minor, patch, release]
+    [major, minor, patch, patchlevel, release]
   end
 
   def to_s

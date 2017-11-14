@@ -34,4 +34,28 @@ RSpec.describe VersionNumber do
     v2 = VersionNumber.new("2.5.3-r3")
     expect { v1 < v2 }.to raise_error /different lengths/
   end
+
+  describe "patch levels" do
+    it "can be initialised with string including patchlevel" do
+      v = VersionNumber.new("1.0.2m-r0")
+      expect(v.major).to eq(1)
+      expect(v.minor).to eq(0)
+      expect(v.patch).to eq(2)
+      expect(v.patchlevel).to eq("m")
+      expect(v.release).to eq(0)
+    end
+
+    it "can have multicharacter patch level" do
+      v = VersionNumber.new("1.0.2ab-r0")
+      expect(v.patchlevel).to eq("ab")
+    end
+
+    it "can compare patch levels" do
+      expect(VersionNumber.new("1.0.2m-r0")).to be < VersionNumber.new("1.0.2n-r0")
+      expect(VersionNumber.new("1.0.2m-r0")).to be < VersionNumber.new("1.0.3a-r0")
+      expect(VersionNumber.new("1.0.2m-r0")).to be > VersionNumber.new("1.0.1z-r0")
+      expect(VersionNumber.new("1.0.2m-r0")).to eq VersionNumber.new("1.0.2m-r0")
+      expect(VersionNumber.new("1.0.2a-r0")).to be < VersionNumber.new("1.0.2aa-r0")
+    end
+  end
 end
