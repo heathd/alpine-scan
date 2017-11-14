@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
-gem 'rspec'
-gem 'docker-api'
+group :test do
+  gem 'rspec'
+end
 
-gem 'pry'
+gem 'docker-api'
