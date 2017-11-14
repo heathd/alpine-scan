@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.dirname(__FILE__) + "/../lib"
+require 'scanner'
+
+begin
+  s = Scanner.new(ENV.fetch("ALPINE_SECDB_PATH"))
+
+  package_name = ARGV[0] or raise("image name not specified")
+  puts "Scanning '#{package_name}'"
+  s.scan(package_name)
+rescue => e
+  $stderr.puts "ERROR: #{e.message}"
+  $stderr.puts
+  $stderr.puts "Usage: scan <image name>"
+  exit(1)
+end

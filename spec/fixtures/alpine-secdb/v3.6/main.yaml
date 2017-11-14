@@ -1,0 +1,26 @@
+---
+distroversion: v3.6
+reponame: main
+archs:
+  - x86_64
+  - x86
+  - armhf
+  - aarch64
+  - ppc64le
+  - s390x
+urlprefix: http://dl-cdn.alpinelinux.org/alpine
+apkurl: "{{urlprefix}}/{{distroversion}}/{{reponame}}/{{arch}}/{{pkg.name}}-{{pkg.ver}}.apk"
+packages:
+  - pkg:
+      name: apache2
+      secfixes:
+        2.4.27-r1:
+          - CVE-2017-9798
+        2.4.26-r0:
+          - CVE-2017-3167
+          - CVE-2017-3169
+          - CVE-2017-7659
+          - CVE-2017-7668
+          - CVE-2017-7679
+        2.4.27-r0:
+          - CVE-2017-9789
