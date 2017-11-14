@@ -4,7 +4,8 @@ $LOAD_PATH << File.dirname(__FILE__) + "/../lib"
 require 'scanner'
 
 begin
-  s = Scanner.new(ENV.fetch("ALPINE_SECDB_PATH"))
+  DEFAULT_PATH = File.dirname(__FILE__) + "/../data/alpine-secdb"
+  s = Scanner.new(ENV.fetch("ALPINE_SECDB_PATH", DEFAULT_PATH))
 
   package_name = ARGV[0] or raise("image name not specified")
   puts "Scanning '#{package_name}'"

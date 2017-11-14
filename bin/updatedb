@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << File.dirname(__FILE__) + "/../lib"
+require 'alpine_secdb_cloner'
+
+AlpineSecdbCloner.new(File.dirname(__FILE__) + "/../data/alpine-secdb").update!
