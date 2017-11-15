@@ -45,6 +45,15 @@ RSpec.describe VersionNumber do
       expect(v.release).to eq(0)
     end
 
+    it "patchlevel can use underscore" do
+      v = VersionNumber.new("6.0_p20170701-r0")
+      expect(v.major).to eq(6)
+      expect(v.minor).to eq(0)
+      expect(v.patch).to be_nil
+      expect(v.patchlevel).to eq("p20170701")
+      expect(v.release).to eq(0)
+    end
+
     it "can have multicharacter patch level" do
       v = VersionNumber.new("1.0.2ab-r0")
       expect(v.patchlevel).to eq("ab")
@@ -57,5 +66,17 @@ RSpec.describe VersionNumber do
       expect(VersionNumber.new("1.0.2m-r0")).to eq VersionNumber.new("1.0.2m-r0")
       expect(VersionNumber.new("1.0.2a-r0")).to be < VersionNumber.new("1.0.2aa-r0")
     end
+  end
+
+  describe "parse all version numbers" do
+    version_numbers_file = File.dirname(__FILE__) + "/fixtures/versionstrings"
+    version_numbers = File.readlines(version_numbers_file).map(&:chomp)
+
+    version_numbers.each do |version_number|
+      it "can parse '#{version_number}'" do
+        VersionNumber.new(version_number)
+      end
+    end
+
   end
 end

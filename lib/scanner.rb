@@ -16,11 +16,7 @@ class Scanner
     stdout = c.streaming_logs(stdout: true)
     c.remove
     stdout.split("\n").map do |string|
-      if string =~ %r{^(.*?)-((?:[0-9]+\.)*[0-9]+(?:[a-zA-Z]*)-r(?:[0-9]+))}
-        Package.new($1, VersionNumber.new($2))
-      else
-        raise "Can't parse #{string}"
-      end
+      Package.new($1, VersionNumber.new($2))
     end
   end
 
