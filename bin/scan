@@ -3,36 +3,36 @@
 require 'bundler/inline'
 
 gemfile true do
- source 'https://rubygems.org'
- gem 'docker-api'
+  source 'https://rubygems.org'
+  gem 'docker-api'
 end
 
 require 'rubygems'
 
-$LOAD_PATH << File.dirname(__FILE__) + "/../lib"
+$LOAD_PATH << File.dirname(__FILE__) + '/../lib'
 require 'scanner'
 require 'alpine_secdb_cloner'
 
 begin
-  if ENV.has_key?("ALPINE_SECDB_PATH")
-    path = ENV.fetch("ALPINE_SECDB_PATH")
+  if ENV.key?('ALPINE_SECDB_PATH')
+    path = ENV.fetch('ALPINE_SECDB_PATH')
   else
-    path = File.dirname(__FILE__) + "/../data/alpine-secdb"
+    path = File.dirname(__FILE__) + '/../data/alpine-secdb'
     AlpineSecdbCloner.new(path).update!
   end
 
   s = Scanner.new(path)
 
-  package_name = ARGV[0] or raise("image name not specified")
+  (package_name = ARGV[0]) || raise('image name not specified')
   puts "Scanning '#{package_name}'"
   if s.scan(package_name)
     exit(0)
   else
     exit(1)
   end
-rescue => e
-  $stderr.puts "ERROR: #{e.message}"
-  $stderr.puts
-  $stderr.puts "Usage: scan <image name>"
+rescue StandardError => e
+  warn "ERROR: #{e.message}"
+  warn
+  warn 'Usage: scan <image name>'
   exit(1)
 end

@@ -11,13 +11,13 @@ class Scanner
   end
 
   def list_packages(image_name)
-    c = Docker::Image.get(image_name).run("apk -v info")
+    c = Docker::Image.get(image_name).run('apk -v info')
     c.wait(5)
     stdout = c.streaming_logs(stdout: true)
     c.remove
     stdout.split("\n").map do |string|
-      if string =~ %r{^(.*?)-((?:[0-9]+\.)*[0-9]+(?:[a-zA-Z]*)-r(?:[0-9]+))}
-        Package.new($1, VersionNumber.new($2))
+      if string =~ /^(.*?)-((?:[0-9]+\.)*[0-9]+(?:[a-zA-Z]*)-r(?:[0-9]+))/
+        Package.new(Regexp.last_match(1), VersionNumber.new(Regexp.last_match(2)))
       else
         Package.new(string, '')
         # raise "Can't parse #{string}"
@@ -41,8 +41,8 @@ class Scanner
   def scan(image_name)
     packages = list_packages(image_name)
     to_patch = packages
-      .map {|p| [p, patches(p)] }
-      .reject {|p, patches| patches.empty?}
+               .map { |p| [p, patches(p)] }
+               .reject { |_p, patches| patches.empty? }
 
     to_patch.each do |package, patches|
       puts "#{package.name} (currently #{package.version})"
@@ -52,6 +52,6 @@ class Scanner
     end
 
     puts "Scanning complete: #{packages.size} packages of which #{to_patch.size} need updating"
-    return to_patch.empty?
+    to_patch.empty?
   end
 end

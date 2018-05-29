@@ -34,14 +34,14 @@ class PackageSet
   end
 
   def package_info(package_name)
-    packages.find {|p| p.package_name == package_name}
+    packages.find { |p| p.package_name == package_name }
   end
 
   def parse_set!(set)
     @packages ||= []
-    meta = set.select {|k,_| %{distroversion reponame archs urlprefix apkurl}.include?(k) }
-    @packages = @packages + set["packages"].map do |package|
-      PackageInfo.new(package["pkg"], meta)
+    meta = set.select { |k, _| %(distroversion reponame archs urlprefix apkurl).include?(k) }
+    @packages += set['packages'].map do |package|
+      PackageInfo.new(package['pkg'], meta)
     end
   end
 end
@@ -55,15 +55,14 @@ class PackageInfo
   end
 
   def package_name
-    package_info["name"]
+    package_info['name']
   end
 
   def security_releases
-    package_info["secfixes"].map do |release_string, cves|
+    package_info['secfixes'].map do |release_string, cves|
       SecurityRelease.new(release_string, cves)
     end
   end
-
 end
 
 class SecurityRelease
