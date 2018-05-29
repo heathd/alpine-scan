@@ -12,7 +12,8 @@ class AlpineSecdbCloner
     pull!
   end
 
-private
+  private
+
   def ensure_clone!
     return if Dir.exist?(destination_path)
     parent_path = File.dirname(destination_path)

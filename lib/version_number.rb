@@ -11,9 +11,9 @@ class VersionNumber < Struct.new(:major, :minor, :patch, :patchlevel, :release)
     (major, minor, patch_parts) = parts.first.split('.')
     self.major = major && major.to_i
     self.minor = minor && minor.to_i
-    if patch_parts =~ %r{^([0-9]+)([a-zA-Z]+)$}
-      self.patch = $1.to_i
-      self.patchlevel = $2
+    if patch_parts =~ /^([0-9]+)([a-zA-Z]+)$/
+      self.patch = Regexp.last_match(1).to_i
+      self.patchlevel = Regexp.last_match(2)
     else
       self.patch = patch_parts && patch_parts.to_i
     end
