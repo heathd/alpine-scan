@@ -15,12 +15,12 @@ A simple tool to compare a given docker image against the
 ```
 $ bundle install
 
-$ docker pull library/alpine:latest
+$ docker pull library/alpine:3.1
 latest: Pulling from library/alpine
 b56ae66c2937: Pulling fs layer
 ...
 
-$ ./bin/scan myrepo/myimage:mytag
+$ ./bin/scan library/alpine:3.1
 Scanning 'myrepo/myimage:mytag'
 musl (currently 1.1.16-r10)
   1.1.16-r14 fixes CVE-2017-15650
