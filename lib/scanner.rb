@@ -19,7 +19,8 @@ class Scanner
       if string =~ %r{^(.*?)-((?:[0-9]+\.)*[0-9]+(?:[a-zA-Z]*)-r(?:[0-9]+))}
         Package.new($1, VersionNumber.new($2))
       else
-        raise "Can't parse #{string}"
+        Package.new(string, '')
+        # raise "Can't parse #{string}"
       end
     end
   end
