@@ -1,5 +1,14 @@
 #!/usr/bin/env ruby
 
+require 'bundler/inline'
+
+gemfile true do
+ source 'https://rubygems.org'
+ gem 'docker-api'
+end
+
+require 'rubygems'
+
 $LOAD_PATH << File.dirname(__FILE__) + "/../lib"
 require 'scanner'
 require 'alpine_secdb_cloner'
